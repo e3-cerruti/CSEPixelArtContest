@@ -6,7 +6,7 @@ The Python script ```conway``` uses the CSE Pixel Art library to generate my con
 
 My entry has two parts.
 
-The first element is a scrolling background drawn by hand in [PixilArt](https://pixilart.com). You can find the background in the file ```background.gif``. 
+The first element is a scrolling background drawn by hand in [PixilArt](https://pixilart.com). You can find the background in the file ```background.gif```. 
 You will understand why either it was a good thing I didn't go to art school or maybe I should have gone to at least some art school.
 
 The second part is a Coe Spaceship from Conway's Game of Life. I chose the Coe Spaceship simply because it would fit inside the required space. In choosing a

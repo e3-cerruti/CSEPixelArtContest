@@ -15,7 +15,7 @@ so you can try other Conway structures.
 
 The command line to generate my contest entry:
 ```
-python conway.py --grid-size 32 --rle coeship.rle --rate 2 --pixelart coeship --ship-color 255 192 203
+python conway.py --grid-size 32 --rle coeship.rle --rate 2 --pixel-art coeship --ship-color 255 192 203
 ```
 <table>
 <tr>

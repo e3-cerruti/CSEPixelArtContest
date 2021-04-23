@@ -189,11 +189,8 @@ def main():
 
     for frame in range(frames):
         # Create the image with the scrolling background
-        # TODO replace with list comprehension
-        img = create_img(rows, cols, (255, 255, 255))
-        for row in range(rows):
-            for col in range(cols):
-                img[row][col] = background[row][(col + BACKGROUND_SCROLL_RATE * frame) % len(background[0])]
+        img = [[background[row][(col + BACKGROUND_SCROLL_RATE * frame) % len(background[0])]
+               for col in range(grid_size)] for row in range(grid_size)]
 
         # Add spaceship
         # TODO Choose spaceship color (constant)

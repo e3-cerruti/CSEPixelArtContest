@@ -17,8 +17,14 @@ The command line to generate my contest entry:
 ```
 python conway.py --grid-size 32 --rle coeship.rle --rate 2 --pixelart coeship --ship-color 255 192 203
 ```
+<table>
+<tr>
+<td style="text-align: center;"><img alt="Coe Spaceship over Planet X" src="https://github.com/e3-cerruti/CSEPixelArtContest/blob/master/coeship_large.gif?raw=true" /></td>
+<td style="text-align: center;"><img alt="Small Coe Spaceship over Planet X" src="https://github.com/e3-cerruti/CSEPixelArtContest/blob/master/coeship.gif?raw=true)" /></td>
+</tr>
+<tr><td>Large: scale 10 (320x320)</td><td>Small: scale 1 (32x32)</td></tr>
+</table>
 
-![Coe Spaceship over Planet X](https://github.com/e3-cerruti/CSEPixelArtContest/blob/master/coeship_large.gif?raw=true)
 
 Credits:
   * CSEPixelArt is from UCSD CSE and is provided with examples in the contest description.

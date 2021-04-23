@@ -125,9 +125,8 @@ def update(frame_number, grid, grid_size, rate):
             # apply Conway's rules
             if grid[i, j] and 2 <= total <= 3:
                 new_grid[i, j + x_offset] = True
-            else:
-                if total == 3:
-                    new_grid[i, j + x_offset] = True
+            elif total == 3:
+                new_grid[i, j + x_offset] = True
 
     # update data
     grid[:] = new_grid[:]

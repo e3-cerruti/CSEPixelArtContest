@@ -156,12 +156,18 @@ def main():
     parser.add_argument('--gosper', action='store_true', required=False)
     parser.add_argument('--rle', dest='rle', required=False)
     parser.add_argument('--rate', dest='rate', required=False)
+    parser.add_argument('--ship-color', nargs='+', type=int)
+
     args = parser.parse_args()
 
     # set grid size
     grid_size = 32
     if args.grid_size and int(args.grid_size) > 8:
         grid_size = int(args.grid_size)
+
+    ship_color = (202, 44, 146)
+    if args.ship_color:
+        ship_color = tuple(args.ship_color)
 
     # check if "glider" demo flag is specified
     if args.glider:
@@ -193,11 +199,10 @@ def main():
                for col in range(grid_size)] for row in range(grid_size)]
 
         # Add spaceship
-        # TODO Choose spaceship color (constant)
         for row in range(grid_size):
             for col in range(grid_size):
                 if grid[row][col] == ON:
-                    img[row][col] = (160, 160, 160)
+                    img[row][col] = ship_color
 
         # Add the frame to our list of images
         imgs.append(img)

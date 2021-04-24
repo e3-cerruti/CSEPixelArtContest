@@ -38,3 +38,5 @@ How this entry works can be reversed engineered from the code, but the secrets a
 | :-------------------------: | :-------------------------: |
 | Large: scale 10 (320x320) | Small: scale 1 (32x32)    |
 
+Credits:
+ * The Morse Code translation script is from [Geeks for Geeks](https://www.geeksforgeeks.org/morse-code-translator-python/) as provided by [Palash Nigam](https://www.linkedin.com/in/palash25).

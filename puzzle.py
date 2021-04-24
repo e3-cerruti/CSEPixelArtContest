@@ -4,7 +4,7 @@ import os
 import numpy
 from PIL import Image
 
-from CSEPixelArt import load_img, save_anim, save_img, add_gif_comment
+from CSEPixelArt import load_img, save_anim, save_img
 from morse import encrypt
 
 COMMENT = 'Created for UCSD CSE Pixel Art Competition 2021\n' +\

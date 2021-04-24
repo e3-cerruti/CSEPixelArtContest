@@ -7,6 +7,10 @@ import numpy as np
 from CSEPixelArt import load_img, save_anim
 from rle2img import RLE
 
+COMMENT = 'Created for UCSD CSE Pixel Art Competition 2021\n' + \
+          'https://pixel-art.goto.ucsd.edu/\n' + \
+          'Copyright Stephen Cerruti 2021 CC BY-SA 4.0'
+
 LARGE = '_large'
 
 GIF = '.gif'
@@ -198,9 +202,8 @@ def main():
         # Update Conway's Game of Life
         update(frame, grid, grid_size, rate)
 
-    save_anim(images, args.pixel_art + GIF, scale=1)
-    save_anim(images, args.pixel_art + LARGE + GIF, scale=10)
-
+    save_anim(images, args.pixel_art + GIF, scale=1, comment=COMMENT)
+    save_anim(images, args.pixel_art + LARGE + GIF, scale=10, comment=COMMENT)
 
 # call main
 if __name__ == '__main__':

@@ -10,8 +10,8 @@ components. The integers should be in the range 0 to 255.
 
 For example the following is a 4x4 red/blue checkered pattern:
 
-red = (255,0,0)
-blue = (0,0,255)
+red = (255, 0, 0)
+blue = (0, 0, 255)
 
 checkered_img = 
   [[red,  blue, red,  blue],
@@ -22,7 +22,7 @@ checkered_img =
 Because an image is a list of rows, if you want to access the pixel at row R and
 column C of an image IMG, you would use IMG[R][C].
 
-The height of an image is the nuber of rows in it. The width of an image is the
+The height of an image is the number of rows in it. The width of an image is the
 number of columns, which is the number of pixels in a row. All rows need to have
 the same number of pixels.
 
@@ -35,8 +35,8 @@ The functions in this library are:
   load_anim: loads an animated image from disk (eg: animated GIF)
   create_img: creates an empty image
   copy_img: copies an image
-  height: returns the height of an image (number of rows)
-  width: returns the width of an image (number of columns)
+  get_height: returns the height of an image (number of rows)
+  get_width: returns the width of an image (number of columns)
   save_img: saves an image to disk as a PNG file
   save_anim: saves a list of images to disk as an animated GIF file
 """
@@ -44,7 +44,8 @@ The functions in this library are:
 import numpy as np
 from PIL import Image
 
-def load_img(filename, size = None, resample_filter = Image.LANCZOS):
+
+def load_img(filename, size=None, resample_filter=Image.LANCZOS):
     """
     Loads an image from a file, optionally resizes it and returns it in the
     CSEPixelArt image format (list of lists of pixels)
@@ -92,7 +93,8 @@ def load_img(filename, size = None, resample_filter = Image.LANCZOS):
     pil_img = Image.open(filename)
     return pil_to_pixart(pil_img, size, resample_filter)
 
-def load_anim(filename, size = None, resample_filter = Image.LANCZOS):
+
+def load_anim(filename, size=None, resample_filter=Image.LANCZOS):
     """
     Loads an animation from a animated image file format (for example an
     animated GIF), optionally resizes each image in the animation and returns
@@ -117,6 +119,7 @@ def load_anim(filename, size = None, resample_filter = Image.LANCZOS):
     else:
         return [pil_to_pixart(pil_img, size, resample_filter)]
 
+
 def create_img(height, width, color):
     """
     Creates an image of the given height/width filled with the given color
@@ -136,13 +139,14 @@ def create_img(height, width, color):
     from CSEPixelArt import *
 
     # Create a 16x16 image filled with white pixels
-    img = create_img(16,16,(255,255,255))
+    img = create_img(16, 16, (255, 255, 255))
 
     """
     result = [None] * height
     for i in range(len(result)):
         result[i] = [color] * width
     return result
+
 
 def copy_img(img):
     """
@@ -161,48 +165,52 @@ def copy_img(img):
             if r % 2 == 0:
                 for c in range(width(img)):
                     pix = red_img[r][c]
-                    red_img[r][c] = (pix[0],0,0)
+                    red_img[r][c] = (pix[0], 0, 0)
         return red_img
 
     """
     return [[pix for pix in row] for row in img]
 
-def height(img):
+
+def get_height(img):
     """
     Returns the number of rows in the image
     """
     return len(img)
 
-def width(img):
+
+def get_width(img):
     """
     Returns the number of columns in the image
     """
     return len(img[0])
 
-def pil_to_pixart(pil_img, size = None, resample_filter = Image.LANCZOS):
+
+def pil_to_pixart(pil_img, size=None, resample_filter=Image.LANCZOS):
     """
     THIS IS A PRIVATE FUNCTION: no need to use this function from the outside     
 
     Convert a Pillow image to an image in CSEPixelArt library format (which is a list
     of lists of pixels)
     """
-    if size != None:
-        pil_img = pil_img.resize(size, resample = resample_filter)
+    if size is not None:
+        pil_img = pil_img.resize(size, resample=resample_filter)
 
     # Convert to RGB format, if it's not already in the format
     pil_img = pil_img.convert("RGB")
-    
+
     # Convert to Numpy 3D array, height by width by 3 
     arr = np.array(pil_img.getdata(), dtype=np.uint8).reshape(pil_img.height, pil_img.width, 3)
 
     # Convert to a list of list of tuples. This removes all numpy arrays to make
     # it easier for clients of the library to manipulate the data (it also makes
     # things slower, but for small images it's not a problem)
-    img = [ [ (int(p[0]),int(p[1]),int(p[2])) for p in row ] for row in arr ]
+    img = [[(int(p[0]), int(p[1]), int(p[2])) for p in row] for row in arr]
 
     return img
 
-def pixart_to_pil(img, scale = 1):
+
+def pixart_to_pil(img, scale=1):
     """
     THIS IS A PRIVATE FUNCTION: no need to use this function from the outside    
 
@@ -211,11 +219,12 @@ def pixart_to_pil(img, scale = 1):
     """
     arr = np.asarray(img, dtype=np.uint8)
     pil_img = Image.fromarray(arr)
-    if (scale > 1):
-        pil_img = pil_img.resize((pil_img.width*scale, pil_img.height*scale), resample = Image.BOX)
+    if scale > 1:
+        pil_img = pil_img.resize((pil_img.width * scale, pil_img.height * scale), resample=Image.BOX)
     return pil_img
 
-def save_img(img, filename, scale = 1):
+
+def save_img(img, filename, scale=1):
     """
     Save the provided image to a file in PNG format
 
@@ -226,7 +235,7 @@ def save_img(img, filename, scale = 1):
 
     filename: Name of the file as a string. Note that the file will be saved in
     PNG format, no matter what file name you give. We save in PNG instead of GIF
-    because PNG can support the full gamit of RGB colors expressible in our
+    because PNG can support the gamut of RGB colors expressible in our
     format (as opposed to GIF which can only support a maximum of 256 color)
 
     scale: Optional scale as an integer >= 1. Each pixel in img is turned into a
@@ -235,23 +244,23 @@ def save_img(img, filename, scale = 1):
     returns: nothing
 
     """
-    if height(img) * scale > 1000:
+    if get_height(img) * scale > 1000:
         print("WARNING: the height will be larger than 1000 pixels")
         print("This is unusual for this Pixel Art competition so it may be a bug")
-    if width(img) * scale > 1000:
+    if get_width(img) * scale > 1000:
         print("WARNING: the width will be larger than 1000 pixels")
         print("This is unusual for this Pixel Art competition so it may be a bug")
     pil_img = pixart_to_pil(img, scale)
     pil_img.save(filename, format='png')
 
 
-def save_anim(imgs, filename, scale = 1, duration = 100):
+def save_anim(images, filename, scale=1, duration=100, comment=None):
     """
     Save the provided animation to an animated GIF format.
 
     PARAMS/RETURN
 
-    imgs: Animation to save. The animation is a list of "frames", where each
+    images: Animation to save. The animation is a list of "frames", where each
     frame is an image in the CSEPixelArt image format. For the CSE Pixel Art
     competition, there is a limit of 60 frames (this is the limit on the Divoom
     devices we will use to display some of the winners).
@@ -270,20 +279,22 @@ def save_anim(imgs, filename, scale = 1, duration = 100):
     duration: Optional pause between frames, in milliseconds. The default is
     100.
 
+    comment: Optional text comment to embed in GIF file
+
     returns: nothing
     """
-    if len(imgs) > 60:
+    if len(images) > 60:
         print("WARNING: the CSE Pixel Art Competition has a limit of 60 frames")
-        print("Your animation has " + str(len(imgs)) + " frames")
-    if height(imgs[0]) * scale > 1000:
+        print("Your animation has " + str(len(images)) + " frames")
+    if get_height(images[0]) * scale > 1000:
         print("WARNING: the height will be larger than 1000 pixels")
         print("This is unusual for this Pixel Art competition so it may be a bug")
-    if width(imgs[0]) * scale > 1000:
+    if get_width(images[0]) * scale > 1000:
         print("WARNING: the width will be larger than 1000 pixels")
         print("This is unusual for this Pixel Art competition so it may be a bug")
 
-    pil_imgs = [pixart_to_pil(x, scale).convert("P", palette = Image.ADAPTIVE) for x in imgs]
-    pil_imgs[0].save(filename,  format='gif',
-					save_all=True, append_images=pil_imgs[1:], optimize=False, duration=duration, loop=0)
-
-
+    pil_images = [pixart_to_pil(x, scale).convert("P", palette=Image.ADAPTIVE) for x in images]
+    if comment:
+        pil_images[0].info['comment'] = comment
+    pil_images[0].save(filename, format='gif',
+                       save_all=True, append_images=pil_images[1:], optimize=False, duration=duration, loop=0)

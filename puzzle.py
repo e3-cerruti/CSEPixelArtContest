@@ -1,16 +1,22 @@
 import argparse
+import os
 
 import numpy
+from PIL import Image
 
-from CSEPixelArt import load_img, save_anim, save_img
+from CSEPixelArt import load_img, save_anim, save_img, add_gif_comment
 from morse import encrypt
 
+COMMENT = 'Created for UCSD CSE Pixel Art Competition 2021\n' +\
+          'https://pixel-art.goto.ucsd.edu/\n' + \
+          'Copyright Stephen Cerruti 2021 CC BY-SA 4.0'
 BLUE = (0, 98, 155)
 GOLD = (255, 205, 0)
 BLACK = (0, 0, 0)
 ENCODED = '_encoded'
 LARGE = '_large'
 GIF = '.gif'
+PNG = '.gif'
 
 
 def encode_message(input_image, message):
@@ -93,7 +99,7 @@ def main():
 
     input_image = numpy.zeros((16, 16))
     if args.input:
-        input_image = load_img(args.input + GIF)
+        input_image = load_img(args.input)
 
     if args.count and input_image:
         pixels = [pixel for column in input_image for pixel in column if pixel == BLACK]
@@ -108,13 +114,14 @@ def main():
     if args.morse and output_image:
         output_images = encode_morse(output_image, args.morse)
 
+    image_name = os.path.splitext(args.input)[0]
     if output_image and not output_images:
-        save_img(output_image, args.input + ENCODED + GIF, scale=1)
-        save_img(output_image, args.input + ENCODED + LARGE + GIF, scale=10)
+        save_img(output_image, image_name + ENCODED + PNG, scale=1)
+        save_img(output_image, image_name + ENCODED + LARGE + PNG, scale=10)
 
     if output_images:
-        save_anim(output_images, args.input + ENCODED + GIF, scale=1)
-        save_anim(output_images, args.input + ENCODED + LARGE + GIF, scale=10)
+        save_anim(output_images, image_name + ENCODED + GIF, scale=1, comment=COMMENT)
+        save_anim(output_images, image_name + ENCODED + LARGE + GIF, scale=10, comment=COMMENT)
 
 
 # call main

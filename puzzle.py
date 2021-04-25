@@ -1,10 +1,10 @@
 import argparse
 import os
+import segno
 
 import numpy
-from PIL import Image
 
-from CSEPixelArt import load_img, save_anim, save_img
+from CSEPixelArt import save_anim, save_img
 from morse import encrypt
 
 COMMENT = 'Created for UCSD CSE Pixel Art Competition 2021\n' +\
@@ -13,6 +13,7 @@ COMMENT = 'Created for UCSD CSE Pixel Art Competition 2021\n' +\
 BLUE = (0, 98, 155)
 GOLD = (255, 205, 0)
 BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 ENCODED = '_encoded'
 LARGE = '_large'
 GIF = '.gif'
@@ -87,34 +88,46 @@ def encode_morse(image, message):
     return images
 
 
+def qr_to_image(qr):
+    bitmap = numpy.zeros((16, 16))
+    bitmap[2:13, 2:13] = [[pixel for pixel in row] for row in iter(qr.matrix)]
+
+    color = {0: WHITE, 1: BLACK}
+    image = [[color[pixel] for pixel in row] for row in bitmap]
+    return image
+
+
 def main():
     parser = argparse.ArgumentParser(description="Runs Conway's Game of Life simulation.")
 
-    parser.add_argument('--input', dest='input', required=False)
+    parser.add_argument('--name', dest='name', required=True)
+    parser.add_argument('--qr', dest='qr', type=int, required=False)
     parser.add_argument('--count', action='store_true', required=False)
     parser.add_argument('--message', dest='message', required=False)
     parser.add_argument('--morse', dest='morse', required=False)
 
     args = parser.parse_args()
 
-    input_image = numpy.zeros((16, 16))
-    if args.input:
-        input_image = load_img(args.input)
+    qr_image = None
+    if args.qr:
+        qr = segno.make(args.qr)
+        if qr.designator == 'M1':
+            qr_image = qr_to_image(qr)
 
-    if args.count and input_image:
-        pixels = [pixel for column in input_image for pixel in column if pixel == BLACK]
+    if args.count and qr_image:
+        pixels = [pixel for column in qr_image for pixel in column if pixel == BLACK]
         print(f'There are {len(pixels)} black pixels.')
 
     output_image = None
     output_images = None
 
     if args.message:
-        output_image = encode_message(input_image, args.message)
+        output_image = encode_message(qr_image, args.message)
 
     if args.morse and output_image:
         output_images = encode_morse(output_image, args.morse)
 
-    image_name = os.path.splitext(args.input)[0]
+    image_name = os.path.splitext(args.name)[0]
     if output_image and not output_images:
         save_img(output_image, image_name + ENCODED + PNG, scale=1)
         save_img(output_image, image_name + ENCODED + LARGE + PNG, scale=10)

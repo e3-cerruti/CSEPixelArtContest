@@ -40,3 +40,4 @@ How this entry works can be reversed engineered from the code, but the secrets a
 
 Credits:
  * The Morse Code translation script is from [Geeks for Geeks](https://www.geeksforgeeks.org/morse-code-translator-python/) as provided by [Palash Nigam](https://www.linkedin.com/in/palash25).
+ * QR Code generation is from the [Segno](https://github.com/heuer/segno) written by Lars Heuer

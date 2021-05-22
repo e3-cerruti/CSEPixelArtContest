@@ -21,7 +21,7 @@ python conway.py --grid-size 32 --rle coeship.rle --rate 2 --pixel-art coeship -
 
 | ![Coe Spaceship over Planet X](coeship_large.gif?raw=true) | ![Small Coe Spaceship over Planet X](coeship.gif?raw=true) |
 | :-------------------------: | :-------------------------: |
-| Large: scale 10 (320x320) | Small: scale 1 (32x32)    |
+| Large: scale 5 (160x160) | Small: scale 1 (32x32)    |
 
 Credits:
   * CSEPixelArt is from UCSD CSE and is provided with examples in the contest description.

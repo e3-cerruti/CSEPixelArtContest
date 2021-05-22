@@ -203,7 +203,7 @@ def main():
         update(frame, grid, grid_size, rate)
 
     save_anim(images, args.pixel_art + GIF, scale=1, comment=COMMENT)
-    save_anim(images, args.pixel_art + LARGE + GIF, scale=10, comment=COMMENT)
+    save_anim(images, args.pixel_art + LARGE + GIF, scale=5, comment=COMMENT)
 
 # call main
 if __name__ == '__main__':
